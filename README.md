@@ -29,4 +29,4 @@ opn_packages_remove:
 ```
 
 ## order of processing
-`packages` are processed pefore `plugins`, `remove` is performed before `install`.
+`plugins` are processed pefore `packages`, `remove` is performed before `install`.

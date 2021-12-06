@@ -1,16 +1,5 @@
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu ft=yaml
 ---
-
-- name: purge opnsense pkg
-  pkgng:
-    name: "{{ opn_packages_remove }}"
-    state: absent
-
-- name: install opnsense pkg
-  pkgng:
-    name: "{{ opn_packages }}"
-    state: present
-
 - name: remove opnsense plugins
   command:
     cmd: "/usr/local/sbin/configctl firmware remove {{ item }}"
@@ -23,4 +12,13 @@
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins | default([]) }}"
 
+- name: purge opnsense pkg
+  pkgng:
+    name: "{{ opn_packages_remove }}"
+    state: absent
+
+- name: install opnsense pkg
+  pkgng:
+    name: "{{ opn_packages }}"
+    state: present
 ...
