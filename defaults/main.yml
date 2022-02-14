@@ -4,7 +4,7 @@
 # opn_plugins:
 #   - os-lldpd
 #   - os-net-snmp
-# 	
+#
 opn_plugins: []
 
 # opnsense plugins to remove
