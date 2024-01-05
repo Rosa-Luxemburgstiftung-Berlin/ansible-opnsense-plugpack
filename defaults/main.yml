@@ -19,4 +19,7 @@ opn_packages: []
 
 # list of packages to remove
 opn_packages_remove: []
+
+# seconds to wait betwen tasks
+opn_plugpack_sleep: 5
 ...

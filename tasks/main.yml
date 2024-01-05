@@ -6,16 +6,28 @@
     removes: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins_remove }}"
 
+- name: give the process some time for settling ...
+  ansible.builtin.pause:
+    seconds: "{{ opn_plugpack_sleep }}"
+
 - name: install opnsense plugins
   ansible.builtin.command:
     cmd: "/usr/local/sbin/configctl firmware install {{ item }}"
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins | default([]) }}"
 
+- name: give the process some time for settling ...
+  ansible.builtin.pause:
+    seconds: "{{ opn_plugpack_sleep }}"
+
 - name: purge opnsense pkg
   community.general.pkgng:
     name: "{{ opn_packages_remove }}"
     state: absent
+
+- name: give the process some time for settling ...
+  ansible.builtin.pause:
+    seconds: "{{ opn_plugpack_sleep }}"
 
 - name: install opnsense pkg
   community.general.pkgng:
