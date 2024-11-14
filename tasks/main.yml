@@ -5,29 +5,35 @@
     cmd: "/usr/local/sbin/configctl firmware remove {{ item }}"
     removes: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins_remove }}"
+  register: opnsense_plugpack__register_remove_opnsense_plugins
 
 - name: give the process some time for settling ...
   ansible.builtin.pause:
     seconds: "{{ opn_plugpack_sleep }}"
+  when: opnsense_plugpack__register_remove_opnsense_plugins.changed # noqa no-handler
 
 - name: install opnsense plugins
   ansible.builtin.command:
     cmd: "/usr/local/sbin/configctl firmware install {{ item }}"
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins | default([]) }}"
+  register: opnsense_plugpack__register_install_opnsense_plugins
 
 - name: give the process some time for settling ...
   ansible.builtin.pause:
     seconds: "{{ opn_plugpack_sleep }}"
+  when: opnsense_plugpack__register_install_opnsense_plugins.changed # noqa no-handler
 
 - name: purge opnsense pkg
   community.general.pkgng:
     name: "{{ opn_packages_remove }}"
     state: absent
+  register: opnsense_plugpack__register_purge_opnsense_pkg
 
 - name: give the process some time for settling ...
   ansible.builtin.pause:
     seconds: "{{ opn_plugpack_sleep }}"
+  when: opnsense_plugpack__register_purge_opnsense_pkg.changed # noqa no-handler
 
 - name: install opnsense pkg
   community.general.pkgng:
