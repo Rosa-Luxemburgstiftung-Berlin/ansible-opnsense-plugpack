@@ -2,7 +2,7 @@
 ---
 - name: remove opnsense plugins
   ansible.builtin.command:
-    cmd: "/usr/local/sbin/configctl firmware remove {{ item }}"
+    cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh remove {{ item }}"
     removes: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins_remove }}"
 
@@ -12,7 +12,7 @@
 
 - name: install opnsense plugins
   ansible.builtin.command:
-    cmd: "/usr/local/sbin/configctl firmware install {{ item }}"
+    cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh install {{ item }}"
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins | default([]) }}"
 
