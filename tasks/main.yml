@@ -5,6 +5,8 @@
     cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh remove {{ item }}"
     removes: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins_remove }}"
+  loop_control:
+    pause: "{{ opn_plugpack_sleep }}"
 
 - name: give the process some time for settling ...
   ansible.builtin.pause:
@@ -15,6 +17,8 @@
     cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh install {{ item }}"
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
   with_items: "{{ opn_plugins | default([]) }}"
+  loop_control:
+    pause: "{{ opn_plugpack_sleep }}"
 
 - name: give the process some time for settling ...
   ansible.builtin.pause:
@@ -33,4 +37,5 @@
   community.general.pkgng:
     name: "{{ opn_packages }}"
     state: present
+
 ...
