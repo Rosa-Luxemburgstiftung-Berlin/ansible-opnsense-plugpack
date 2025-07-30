@@ -1,10 +1,35 @@
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu ft=yaml
 ---
+
+- name: convert deprecated format from list to dict for opn_plugins
+  ansible.builtin.set_fact:
+    opn_plugins:
+      deprecated: "{{ opn_plugins }}"
+  when: opn_plugins | type_debug == "list"
+
+- name: convert deprecated format from list to dict for opn_plugins_remove
+  ansible.builtin.set_fact:
+    opn_plugins_remove:
+      deprecated: "{{ opn_plugins_remove }}"
+  when: opn_plugins_remove | type_debug == "list"
+
+- name: convert deprecated format from list to dict for opn_packages
+  ansible.builtin.set_fact:
+    opn_packages:
+      deprecated: "{{ opn_packages }}"
+  when: opn_packages | type_debug == "list"
+
+- name: convert deprecated format from list to dict for opn_packages_remove
+  ansible.builtin.set_fact:
+    opn_packages_remove:
+      deprecated: "{{ opn_packages_remove }}"
+  when: opn_packages_remove | type_debug == "list"
+
 - name: remove opnsense plugins
   ansible.builtin.command:
     cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh remove {{ item }}"
     removes: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
-  with_items: "{{ opn_plugins_remove }}"
+  with_items: "{{ opn_plugins_remove.values() | list | flatten }}"
   loop_control:
     pause: "{{ opn_plugpack_sleep }}"
   register: opnsense_plugpack__register_remove_opnsense_plugins
@@ -18,7 +43,7 @@
   ansible.builtin.command:
     cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh install {{ item }}"
     creates: "/usr/local/opnsense/version/{{ item | split('-', 1) | last }}"
-  with_items: "{{ opn_plugins | default([]) }}"
+  with_items: "{{ opn_plugins.values() | list | flatten }}"
   loop_control:
     pause: "{{ opn_plugpack_sleep }}"
   register: opnsense_plugpack__register_install_opnsense_plugins
@@ -30,7 +55,7 @@
 
 - name: purge opnsense pkg
   community.general.pkgng:
-    name: "{{ opn_packages_remove }}"
+    name: "{{ opn_packages_remove.values() | list | flatten }}"
     state: absent
   register: opnsense_plugpack__register_purge_opnsense_pkg
 
@@ -41,7 +66,7 @@
 
 - name: install opnsense pkg
   community.general.pkgng:
-    name: "{{ opn_packages }}"
+    name: "{{ opn_packages.values() | list | flatten }}"
     state: present
 
 ...
