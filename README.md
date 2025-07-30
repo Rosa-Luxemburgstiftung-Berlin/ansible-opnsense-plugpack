@@ -13,6 +13,8 @@ do **not** list packages in `opn_packages` that are required/installed by **plug
 (for example the package `lscpu` is installed by `os-hw-probe`)
 
 ## settings
+
+
 ```yaml
 # define a list of opnsense plugins to install
 opn_plugins:
@@ -34,6 +36,21 @@ opn_packages_remove:
   - ipmitool
 
 ```
+
+All list VARs (` opn_plugins / opn_plugins_remove / opn_packages / opn_packages_remove`) can be de defined as list of dicts in order to allow merging them by hosts/groups:
+```yaml
+# group_vars/all.yml
+opn_plugins:
+  all:
+    - os-lldpd
+    - os-net-snmp
+
+# group_vars/nut.yml
+opn_plugins:
+  nut:
+    - os-nut
+```
+will result in all 3 plugins for all members of the `nut` group, and only 2 plugins for the rest.
 
 ## order of processing
 `plugins` are processed before `packages`, `remove` is performed before `install`.
