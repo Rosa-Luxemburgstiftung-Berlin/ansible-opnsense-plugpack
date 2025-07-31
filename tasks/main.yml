@@ -25,6 +25,16 @@
       deprecated: "{{ opn_packages_remove }}"
   when: opn_packages_remove | type_debug == "list"
 
+- name: check for undecided plugins
+  ansible.builtin.fail:
+    msg: "plugins listed in opn_plugins and opn_plugins_remove: opn_plugins.values() | list | flatten | ansible.builtin.intersect(opn_plugins_remove.values() | list | flatten)"
+  when: opn_plugins.values() | list | flatten | ansible.builtin.intersect(opn_plugins_remove.values() | list | flatten) | length > 0
+
+- name: check for undecided packages
+  ansible.builtin.fail:
+    msg: "packages listed in opn_packages and opn_packages_remove: opn_packages.values() | list | flatten | ansible.builtin.intersect(opn_packages_remove.values() | list | flatten)"
+  when: opn_packages.values() | list | flatten | ansible.builtin.intersect(opn_packages_remove.values() | list | flatten) | length > 0
+
 - name: remove opnsense plugins
   ansible.builtin.command:
     cmd: "/usr/local/opnsense/scripts/firmware/launcher.sh remove {{ item }}"
