@@ -90,7 +90,7 @@
   with_dict: "{{ opnsense_revert }}"
   when:
     - not item.value == None
-    - item.value | length > 0
+    - item.value | string | length > 0
   loop_control:
     pause: "{{ opn_plugpack_sleep }}"
   register: opnsense_plugpack__register_opnsense_revert
