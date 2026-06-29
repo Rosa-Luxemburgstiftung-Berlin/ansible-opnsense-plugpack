@@ -24,6 +24,9 @@ opn_packages: {}
 # dict of list or list of packages to remove
 opn_packages_remove: {}
 
+# dict of list or list of packages to lock, i.e. prevent upgrades
+opn_packages_lock: {}
+
 # opnsense-revert
 # see https://docs.opnsense.org/manual/opnsense_tools.html#opnsense-revert
 # dict : revert what to which version ?

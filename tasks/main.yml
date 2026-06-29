@@ -100,4 +100,10 @@
     seconds: "{{ opn_plugpack_sleep }}"
   when: opnsense_plugpack__register_opnsense_revert.changed # noqa no-handler
 
+- name: opnsense pkg lock
+  ansible.builtin.command: "/usr/sbin/pkg lock {{ item }}"
+  with_items: "{{ opn_packages_lock.values() | list | flatten }}"
+  loop_control:
+    pause: "{{ opn_plugpack_sleep }}"
+
 ...
