@@ -24,6 +24,6 @@ opn_packages: {}
 # dict of list or list of packages to remove
 opn_packages_remove: {}
 
-# seconds to wait betwen tasks
+# seconds to wait between tasks
 opn_plugpack_sleep: 1
 ...
