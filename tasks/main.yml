@@ -85,7 +85,7 @@
     seconds: "{{ opn_plugpack_sleep }}"
   when: opnsense_plugpack__register_install_opnsense_pkg.changed # noqa no-handler
 
-- name: opnsense revert
+- name: opnsense revert  # noqa no-changed-when
   ansible.builtin.command: "/usr/local/sbin/opnsense-revert -r {{ item.value }} {{ item.key }}"
   with_dict: "{{ opnsense_revert }}"
   when:
@@ -100,7 +100,7 @@
     seconds: "{{ opn_plugpack_sleep }}"
   when: opnsense_plugpack__register_opnsense_revert.changed # noqa no-handler
 
-- name: opnsense pkg lock
+- name: opnsense pkg lock  # noqa no-changed-when
   ansible.builtin.command: "/usr/sbin/pkg lock {{ item }}"
   with_items: "{{ opn_packages_lock.values() | list | flatten }}"
   loop_control:
