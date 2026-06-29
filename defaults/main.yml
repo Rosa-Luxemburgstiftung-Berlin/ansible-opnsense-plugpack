@@ -24,6 +24,20 @@ opn_packages: {}
 # dict of list or list of packages to remove
 opn_packages_remove: {}
 
-# seconds to wait betwen tasks
+# dict of list or list of packages to lock, i.e. prevent upgrades
+# !warning - this task is not idempotent and will report changed every time
+opn_packages_lock: {}
+
+# opnsense-revert
+# see https://docs.opnsense.org/manual/opnsense_tools.html#opnsense-revert
+# dict : revert what to which version ?
+# !warning - this task is not idempotent and will report changed every time
+# example:
+# opnsense_revert:
+#   nut: 26.1.7
+#   bash: # an empty string should do nothing - this way you can override a previously defined revert
+opnsense_revert: {}
+
+# seconds to wait between tasks
 opn_plugpack_sleep: 1
 ...
