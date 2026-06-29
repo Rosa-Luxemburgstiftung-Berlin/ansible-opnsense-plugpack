@@ -24,6 +24,15 @@ opn_packages: {}
 # dict of list or list of packages to remove
 opn_packages_remove: {}
 
+# opnsense-revert
+# see https://docs.opnsense.org/manual/opnsense_tools.html#opnsense-revert
+# dict : revert what to which version ?
+# example:
+# opnsense_revert:
+#   nut: 26.1.7
+#   bash: # an empty string should do nothing - this way you can override a previously defined revert
+opnsense_revert: {}
+
 # seconds to wait between tasks
 opn_plugpack_sleep: 1
 ...
